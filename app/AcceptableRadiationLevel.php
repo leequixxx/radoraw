@@ -17,6 +17,12 @@ class AcceptableRadiationLevel extends Model
         'level' => 'float',
     ];
 
+    protected $hidden = [
+        'order',
+        'raw_id',
+        'isotope_id',
+    ];
+
     public $timestamps = false;
 
     public function raw(): BelongsTo
@@ -26,6 +32,6 @@ class AcceptableRadiationLevel extends Model
 
     public function isotope(): BelongsTo
     {
-        return $this->belongsTo(Isotope::class);
+        return $this->belongsTo(Isotope::class, 'isotope_id', 'id');
     }
 }

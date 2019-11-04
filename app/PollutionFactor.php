@@ -14,6 +14,13 @@ class PollutionFactor extends Model
         'coefficient',
     ];
 
+    protected $hidden = [
+        'order',
+        'raw_id',
+        'soil_id',
+        'isotope_id',
+    ];
+
     protected $casts = [
         'coefficient' => 'float',
     ];
@@ -32,6 +39,6 @@ class PollutionFactor extends Model
 
     public function isotope(): BelongsTo
     {
-        return $this->belongsTo(Isotope::class);
+        return $this->belongsTo(Isotope::class, 'isotope_id', 'id');
     }
 }

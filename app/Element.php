@@ -13,6 +13,10 @@ class Element extends Model
         'symbol',
     ];
 
+    protected $hidden = [
+        'order',
+    ];
+
     protected $primaryKey = 'index';
     public $incrementing = false;
 

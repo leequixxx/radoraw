@@ -14,6 +14,15 @@ class Isotope extends Model
         'element_index',
     ];
 
+    protected $hidden = [
+        'order',
+        'element_index',
+    ];
+
+    protected $casts = [
+        'mass' => 'float',
+    ];
+
     protected $primaryKey = 'mass';
     public $incrementing = false;
     protected $keyType = 'float';
