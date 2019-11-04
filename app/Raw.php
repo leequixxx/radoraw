@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Raw extends Model
 {
@@ -12,4 +13,14 @@ class Raw extends Model
     ];
 
     public $timestamps = false;
+
+    public function acceptableRadiationLevels(): HasMany
+    {
+        return $this->hasMany(AcceptableRadiationLevel::class);
+    }
+
+    public function pollutionFactors(): HasMany
+    {
+        return $this->hasMany(PollutionFactor::class);
+    }
 }

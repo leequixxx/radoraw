@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Isotope extends Model
 {
@@ -22,5 +23,15 @@ class Isotope extends Model
     public function element(): BelongsTo
     {
         return $this->belongsTo(Element::class);
+    }
+
+    public function pollutionFactors(): HasMany
+    {
+        return $this->hasMany(PollutionFactor::class);
+    }
+
+    public function acceptableRadiationLevels(): HasMany
+    {
+        return $this->hasMany(AcceptableRadiationLevel::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Soil extends Model
 {
@@ -16,4 +17,9 @@ class Soil extends Model
     ];
 
     public $timestamps = false;
+
+    public function pollutionFactors(): HasMany
+    {
+        return $this->hasMany(PollutionFactor::class);
+    }
 }
