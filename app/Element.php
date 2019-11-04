@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Element extends Model
 {
@@ -16,4 +17,9 @@ class Element extends Model
     public $incrementing = false;
 
     public $timestamps = false;
+
+    public function isotopes(): HasMany
+    {
+        return $this->hasMany(Isotope::class);
+    }
 }
