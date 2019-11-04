@@ -14,7 +14,8 @@ class CreateIsotopesTable extends Migration
     public function up()
     {
         Schema::create('isotopes', function (Blueprint $table) {
-            $table->unsignedDecimal('mass', 6, 3)->primary();
+            $table->bigIncrements('id');
+            $table->unsignedDecimal('mass', 6, 3);
             $table->string('name', 64);
 
             $table->unsignedSmallInteger('element_index');
