@@ -6,11 +6,10 @@
         <meta name="description" content="{{ Str::limit(setting('site.description'), 140) }}">
 
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-              rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap&subset=cyrillic" rel="stylesheet">
 
         <title>
-            {{ setting('site.title') }}
+            {{ setting('site.title', config('app.name')) }}
         </title>
     </head>
     <body>

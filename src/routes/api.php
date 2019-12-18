@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\IsotopeResource;
 use Illuminate\Http\Request;
 use App\Http\Resources\SoilResource;
 use App\Http\Resources\RawResource;
@@ -21,14 +22,13 @@ use App\Soil;
 */
 
 Route::get('soils', function () {
-    sleep(5);
     return SoilResource::collection(Soil::orderBy('order')->get());
 });
 Route::get('raws', function () {
     return RawResource::collection(Raw::orderBy('order')->get());
 });
 Route::get('isotopes', function () {
-    return Isotope::with('element')->orderBy('order')->get();
+    return IsotopeResource::collection(Isotope::with('element')->orderBy('order')->get());
 });
 
 

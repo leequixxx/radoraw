@@ -1,3 +1,16 @@
-$primary-color: #eb3b5a;
-$background-color: #f1f2f6;
-$text-color: #222222;
+$primary-color: #cd0000;
+$secondary-color: #eeba30;
+
+$dark-color: #1e272e;
+$light-color: #ffffff;
+$error-text-color: $primary-color;
+
+$text-color: $dark-color;
+$light-text-color: $light-color;
+$background-color: $light-color;
+
+
+$media-xs: 576px;
+$media-sm: 768px;
+$media-md: 992px;
+$media-lg: 1280px;

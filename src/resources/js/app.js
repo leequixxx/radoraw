@@ -2,12 +2,12 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.Vuex = require('vuex');
+window.VueCarousel = require('vue-carousel');
 window.VueWait = require('vue-wait').default;
-window.Vuesax = require('vuesax');
 
 Vue.use(Vuex);
 Vue.use(VueWait);
-Vue.use(Vuesax);
+Vue.use(VueCarousel);
 
 const store = new Vuex.Store(require('./store').default);
 const wait = new VueWait({ useVuex: true });

@@ -11,31 +11,22 @@
                 />
             </template>
             <div class="soli-select">
-                <vs-select
-                    class="soil-select__select"
-                    label="Выбор типа почвы"
-                    icon="terrain"
-                    width="100%"
-
-                    :disabled="!!error"
-                    :danger="!!error"
-                    :danger-text="error ? error.message : ''"
-                    :value="value"
-                    @input="$emit('input', $event)"
-                >
-                    <vs-select-item
-                        :key="soil.id"
-                        :value="soil.id"
-                        :text="soil.name"
+                <ul>
+                    <li
                         v-for="soil in data"
-                    />
-                </vs-select>
+                        :key="soil.id"
+                    >
+                        {{ soil.name }}
+                    </li>
+                </ul>
+                <span>{{ error }}</span>
             </div>
         </v-wait>
 </template>
 
 <script>
   import { LoopingRhombusesSpinner } from 'epic-spinners';
+  import { ACTIONS } from '../consts/resources/soils';
 
   const { mapActions, mapState } = Vuex;
 
@@ -61,7 +52,7 @@
 
     methods: {
       ...mapActions('soils', [
-        'fetch',
+        ACTIONS.FETCH,
       ]),
     },
 

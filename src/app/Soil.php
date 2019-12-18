@@ -4,10 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use TCG\Voyager\Traits\Resizable;
 use URL;
 
 class Soil extends Model
 {
+    use Resizable;
+
     protected $fillable = [
         'name',
         'picture',
