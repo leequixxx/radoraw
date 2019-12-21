@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Voyager;
 
 class RawResource extends JsonResource
 {
@@ -17,7 +18,7 @@ class RawResource extends JsonResource
         return array_merge(
             parent::toArray($request),
             [
-                'picture' => $this->pictureUri,
+                'picture' => Voyager::image($this->thumbnail('cropped', 'picture')),
             ]
         );
     }

@@ -31,10 +31,4 @@ Route::get('isotopes', function () {
     return IsotopeResource::collection(Isotope::with('element')->orderBy('order')->get());
 });
 
-
-Route::get('acceptable_radiation_levels', function () {
-    return AcceptableRadiationLevel::with('raw', 'isotope')->orderBy('order')->get();
-});
-Route::get('pollution_factors', function () {
-    return PollutionFactor::with('raw', 'soil', 'isotope')->orderBy('order')->get();
-});
+Route::post('result', 'ResultCalculationController@result');

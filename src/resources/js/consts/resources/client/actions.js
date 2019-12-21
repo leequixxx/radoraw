@@ -1,0 +1,1 @@
+export const CALCULATE_RESULT = 'calculateResult';

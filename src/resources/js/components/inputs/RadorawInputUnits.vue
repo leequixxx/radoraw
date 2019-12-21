@@ -20,7 +20,7 @@
 
     props: {
       value: {
-        type: String,
+        type: [Number, String],
       },
       disabled: {
         type: Boolean,
@@ -46,20 +46,20 @@
         display: flex;
 
         &__input {
-            width: 50%;
+            width: 100%;
             height: 16px;
 
             padding-bottom: 5px;
 
             border: 0;
-            border-bottom: 2px solid $secondary-color;
+            border-bottom: 2px solid $primary-color;
             outline: 0;
 
             background-color: transparent;
-            color: $secondary-color;
+            color: $primary-color;
 
             font-family: "Montserrat", sans-serif;
-            font-size: 1rem;
+            font-size: 0.9rem;
 
             cursor: text;
 
@@ -79,9 +79,9 @@
             margin-top: 2px;
             padding-left: 5px;
 
-            color: $secondary-color;
+            color: $primary-color;
 
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
     }
 </style>

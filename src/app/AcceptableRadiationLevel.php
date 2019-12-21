@@ -11,6 +11,8 @@ class AcceptableRadiationLevel extends Model
         'raw_id',
         'isotope_id',
         'level',
+        'action_on_normal',
+        'action_on_danger',
     ];
 
     protected $casts = [
@@ -19,8 +21,6 @@ class AcceptableRadiationLevel extends Model
 
     protected $hidden = [
         'order',
-        'raw_id',
-        'isotope_id',
     ];
 
     public $timestamps = false;

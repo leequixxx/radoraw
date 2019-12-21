@@ -31,6 +31,9 @@
                     <div class="radoraw-modal__content">
                         <slot></slot>
                     </div>
+                    <div class="radoraw-modal__footer">
+                        <slot name="footer"></slot>
+                    </div>
                 </div>
             </transition>
         </div>
@@ -68,6 +71,10 @@
         z-index: 9999;
 
         &__modal {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
             height: 50%;
             width: 50%;
 
@@ -153,6 +160,8 @@
 
         &__content {
             padding: 10px;
+
+            height: 100%;
         }
     }
 </style>

@@ -51,14 +51,34 @@
                     Значения радиоактивности
                 </template>
 
-                <dl>
-                    <dt>
-                        Cesium
-                    </dt>
-                    <dd>
-                        <radoraw-input-units>Ku/Km2</radoraw-input-units>
-                    </dd>
-                </dl>
+                <table class="radoraw-step-isotope-inputs">
+                  <tr
+                    class="radoraw-step-isotope-inputs__row"
+                    v-for="isotopeWithRadioactivityValue in isotopesWithRadioactivityValues"
+                    :key="isotopeWithRadioactivityValue.isotope.id"
+                  >
+                    <td class="radoraw-step-isotope-inputs__label">
+                        {{ isotopeWithRadioactivityValue.isotope.name }}
+                    </td>
+                    <td class="radoraw-step-isotope-inputs__input-container">
+                        <radoraw-input-units
+                            class="radoraw-step-isotope-inputs__input"
+                            :value="isotopeWithRadioactivityValue.value"
+                            @input="inputLevel(isotopeWithRadioactivityValue, $event)"
+                        >Ku/Km2</radoraw-input-units>
+                    </td>
+                  </tr>
+                </table>
+                <template slot="footer">
+                    <div class="radoraw-step-isotope-inputs__button">
+                        <radoraw-button
+                            color="primary"
+                            @click="modals.isotopesWithRadioactivityValues = !modals.isotopesWithRadioactivityValues"
+                        >
+                            Применить
+                        </radoraw-button>
+                    </div>
+                </template>
             </radoraw-modal>
         </div>
 </template>
@@ -118,6 +138,7 @@
     methods: {
       ...mapMutations(RESOURCE, [
         MUTATIONS.SET_ISOTOPES_WITH_RADIOACTIVITY_VALUES,
+        MUTATIONS.SET_ISOTOPE_WITH_RADIOACTIVITY_VALUE,
       ]),
       set(data) {
         const isotopesWithRadioactivityValues = data.map(isotope => {
@@ -134,6 +155,15 @@
 
         return this[MUTATIONS.SET_ISOTOPES_WITH_RADIOACTIVITY_VALUES](isotopesWithRadioactivityValues);
       },
+      inputLevel(isotopeWithRadioactivityValue, level) {
+        const isotopesWithRadioactivityValues = [...this.isotopesWithRadioactivityValues];
+        const index = isotopesWithRadioactivityValues
+          .findIndex((isotopesWithRadioactivityValuesElement) => isotopesWithRadioactivityValuesElement.isotope.id === isotopeWithRadioactivityValue.isotope.id);
+
+        if (index !== -1) {
+          return this[MUTATIONS.SET_ISOTOPE_WITH_RADIOACTIVITY_VALUE]({ index, value: level * 1 });
+        }
+      }
     },
   };
 </script>
@@ -172,6 +202,30 @@
 
         &__icon {
             width: 24px;
+        }
+    }
+
+    .radoraw-step-isotope-inputs {
+        width: 100%;
+
+        border-collapse: separate;
+        border-spacing: 10px;
+
+        &__label {
+            padding-right: 10px;
+
+            color: $primary-color;
+
+            font-weight: 600;
+
+            text-align: right;
+        }
+
+        &__button {
+            display: flex;
+            justify-content: center;
+
+            padding: 20px;
         }
     }
 </style>

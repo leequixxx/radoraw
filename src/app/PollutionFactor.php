@@ -16,9 +16,6 @@ class PollutionFactor extends Model
 
     protected $hidden = [
         'order',
-        'raw_id',
-        'soil_id',
-        'isotope_id',
     ];
 
     protected $casts = [

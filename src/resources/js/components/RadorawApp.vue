@@ -13,11 +13,19 @@
                     :next="next"
                     :prev="prev"
                 ></radoraw-step-isotope>
-                <div class="test" slot="step-raw" slot-scope="{ next, prev }">
-                    test!
-                    <button @click="prev"><--</button>
-                    <button @click="next">--></button>
-                </div>
+                <radoraw-step-raw
+                    slot="step-raw"
+                    slot-scope="{ next, prev }"
+                    :next="next"
+                    :prev="prev"
+                >
+                </radoraw-step-raw>
+                <radoraw-step-result
+                    slot="step-result"
+                    slot-scope="{ prev }"
+                    :prev="prev"
+                >
+                </radoraw-step-result>
 
                 <radoraw-icon-soil
                     slot="step-icon-soil"
@@ -56,6 +64,8 @@
   import RadorawContainer from './RadorawContainer';
   import RadorawStepSoil from './steps/RadorawStepSoil';
   import RadorawStepIsotope from './steps/RadorawStepIsotope';
+  import RadorawStepRaw from './steps/RadorawStepRaw';
+  import RadorawStepResult from './steps/RadorawStepResult';
   import RadorawStepper from './stepper/RadorawStepper';
   import RadorawIconSoil from './icons/RadorawIconSoil';
   import RadorawIconIsotope from './icons/RadorawIconIsotope';
@@ -72,6 +82,8 @@
       RadorawStepper,
       RadorawStepSoil,
       RadorawStepIsotope,
+      RadorawStepRaw,
+      RadorawStepResult,
       RadorawContainer,
     },
 

@@ -1,11 +1,10 @@
-import * as MUTATIONS from './mutations';
-import * as ACTIONS from './actions';
+import { MUTATIONS, ACTIONS } from '../default';
 import { createLoadings } from '../default/loadings';
 import { createUrl } from '../default/urls';
 
-const RESOURCE = 'client';
-const URL = createUrl('result');
+const RESOURCE = 'raws';
 const LOADINGS = createLoadings(RESOURCE, ACTIONS);
+const URL = createUrl(RESOURCE);
 
 export {
   RESOURCE,
