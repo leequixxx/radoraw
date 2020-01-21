@@ -18,15 +18,15 @@ class ResultCalculationController extends Controller
     {
         $validator = Validator::make($request->toArray(), [
             'soil' => 'required|exists:soils,id',
-    
+
             'isotopes' => 'required|array',
             'isotopes.*.id' => 'required|exists:isotopes,id',
             'isotopes.*.value' => 'required|numeric|min:0.001|max:999',
-    
+
             'raws' => 'required|array',
             'raws.*' => 'required|exists:raws,id',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
@@ -71,24 +71,32 @@ class ResultCalculationController extends Controller
                         ->where('isotope_id', $isotope['id'])
                         ->where('raw_id', $raw->id)
                         ->first();
-                    
+
+                    $levels = collect($acceptableRadiationLevel->levels['acceptable'] ?? [])
+                        ->sortByDesc('before');
+                    $maxAcceptableLevel = $levels->filter(function ($level) { return $level['isOk']; })->max('before');
+                    $newLevels = [];
+                    $levels->each(function ($level) use (&$newLevels) {
+                        $newLevels[] = $level;
+                    });
+
                     $data = [
                         'isotope' => (new IsotopeResource($isotope['isotope']))->toArray(request()),
 
-                        'max_level' => $acceptableRadiationLevel->level,
+                        'max_level' => $maxAcceptableLevel,
+                        'levels' => $newLevels,
 
                         'level' => $this->calculateRadiationLevel($pollutionFactors
                             ->where('isotope_id', $isotope['id'])
                             ->where('raw_id', $raw->id)
                             ->where('soil_id', $soilId)
-                            ->first()->coefficient ?? 1, $isotope['value']),
+                            ->first()->coefficient ?? 0, $isotope['value']),
 
-                        'acceptable' => true,
-                        'action_on_normal' => $acceptableRadiationLevel->action_on_normal,
-                        'action_on_danger' => $acceptableRadiationLevel->action_on_danger,
+                        'acceptable' => null,
+                        'unacceptable_message' => $acceptableRadiationLevel->levels['unacceptable_message'],
                     ];
 
-                    $data['acceptable'] = $data['max_level'] >= $data['level'];
+                    $data['acceptable'] = $data['level'] <= $maxAcceptableLevel;
 
                     return $data;
                 })->toArray(),
@@ -96,20 +104,35 @@ class ResultCalculationController extends Controller
                 'action' => '',
             ];
 
-            $invalidIsotopes = array_filter($data['isotopes'], function ($isotope) {
-                return !$isotope['acceptable'];
-            });
+            $actions = [];
+            $maxIndices = [];
+            foreach ($data['isotopes'] as $isotope) {
+                foreach ($isotope['levels'] as $index => $level) {
+                    if ($isotope['level'] > $level['before']) {
+                        $maxIndices[] = $index;
+                        break;
+                    }
+                }
+            }
+            if (empty($maxIndices)) {
+                $maxIndices = [count($data['isotopes'][0]['levels'])];
+            }
+            $actionsBefore = min($maxIndices);
 
-            if (!empty($invalidIsotopes)) {
-                $actions = array_map(function ($invalidIsotope) { return $invalidIsotope['action_on_danger']; }, $invalidIsotopes);
-                $actions = array_unique($actions);
+            foreach ($data['isotopes'] as $isotope) {
+                for ($i = 0; $i < $actionsBefore; $i++) {
+                    $actions[] = $isotope['levels'][$i]['message'];
+                }
+            }
+            $actions = array_unique($actions);
 
-                $data['action'] = implode('/', $actions);
+            if (!empty($actions)) {
+                $data['action'] = implode('. ', $actions) . '.';
             } else {
-                $actions = array_map(function ($isotope) { return $isotope['action_on_normal']; }, $data['isotopes']);                $actions = array_unique($actions);
-                $actions = array_unique($actions);
-                
-                $data['action'] = implode('/', $actions);
+                $actions = array_map(function ($isotope) {
+                    return $isotope['unacceptable_message'];
+                }, $data['isotopes']);
+                $data['action'] = array_unique($actions)[0] ?? '';
             }
 
             return $data;

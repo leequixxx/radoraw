@@ -24,8 +24,14 @@ use App\Soil;
 Route::get('soils', function () {
     return SoilResource::collection(Soil::orderBy('order')->get());
 });
-Route::get('raws', function () {
-    return RawResource::collection(Raw::orderBy('order')->get());
+Route::get('raws', function (Request $request) {
+    $request->validate([
+        'soil' => 'required|exists:soils,id',
+    ]);
+
+    return RawResource::collection(Raw::whereHas('pollutionFactors', function ($query) use ($request) {
+        $query->where('soil_id', $request->input('soil'));
+    })->orderBy('order')->get());
 });
 Route::get('isotopes', function () {
     return IsotopeResource::collection(Isotope::with('element')->orderBy('order')->get());

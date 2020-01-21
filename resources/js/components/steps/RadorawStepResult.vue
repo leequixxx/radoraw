@@ -50,13 +50,13 @@
                       v-for="isotope in row.isotopes"
                       :key="`max-${isotope.isotope.id}`"
                     >
-                      {{ isotope.max_level.toFixed(2) }}
+                      {{ !!isotope.level ? isotope.max_level.toFixed(2) : '-' }}
                     </td>
                     <td
                       v-for="isotope in row.isotopes"
                       :key="`current-${isotope.isotope.id}`"
                     >
-                      {{ isotope.level.toFixed(2) }}
+                      {{ !!isotope.level ? isotope.level.toFixed(2) : '-' }}
                     </td>
                     <td
                       v-for="isotope in row.isotopes"

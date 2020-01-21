@@ -57,6 +57,7 @@
     Slide as VueCarouselSlide,
   } from 'vue-carousel';
   import { ACTIONS, RESOURCE, LOADINGS } from '../../consts/resources/raws';
+  import * as client from '../../consts/resources/client';
 
   const { mapActions, mapState } = Vuex;
 
@@ -79,6 +80,9 @@
       ...mapState(RESOURCE, {
         data: state => state.data,
         error: state => state.error,
+      }),
+      ...mapState(client.RESOURCE, {
+        soil: state => state.soil && state.soil.id,
       }),
       loadings() {
         return LOADINGS;
@@ -104,9 +108,7 @@
     },
 
     async mounted() {
-      if (!this.data.length) {
-        await this[ACTIONS.FETCH]();
-      }
+      await this[ACTIONS.FETCH]({ soil: this.soil });
 
       if (this.$refs.carousel) {
         this.$refs.carousel.onResize();

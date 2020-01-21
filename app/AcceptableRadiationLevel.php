@@ -10,13 +10,11 @@ class AcceptableRadiationLevel extends Model
     protected $fillable = [
         'raw_id',
         'isotope_id',
-        'level',
-        'action_on_normal',
-        'action_on_danger',
+        'levels',
     ];
 
     protected $casts = [
-        'level' => 'float',
+        'levels' => 'array',
     ];
 
     protected $hidden = [
