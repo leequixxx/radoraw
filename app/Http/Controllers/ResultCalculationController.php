@@ -21,7 +21,7 @@ class ResultCalculationController extends Controller
 
             'isotopes' => 'required|array',
             'isotopes.*.id' => 'required|exists:isotopes,id',
-            'isotopes.*.value' => 'required|numeric|min:0.001|max:999',
+            'isotopes.*.value' => 'required|numeric',
 
             'raws' => 'required|array',
             'raws.*' => 'required|exists:raws,id',
